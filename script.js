@@ -146,9 +146,9 @@ function animate() {
   renderer.render(scene, camera);
 
   if (planeLeft && planeLeft.material.map) {
-    planeLeft.material.map.offset.x -= 0.001;
-    planeRight.material.map.offset.x -= 0.001;
-    planeFront.material.map.offset.x -= 0.001;
+    planeLeft.material.map.offset.x -= 0.0012;
+    planeRight.material.map.offset.x -= 0.0012;
+    planeFront.material.map.offset.x -= 0.0012;
   }
 
   time += 0.006;
