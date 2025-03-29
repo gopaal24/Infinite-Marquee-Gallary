@@ -9,7 +9,7 @@ function createCanvas(callback) {
   const imageSize = 2048;
   const gap = 512;
 
-  const canvasWidth = imageSize * 4 + gap * 4;
+  const canvasWidth = imageSize * 6 + gap * 6;
   const canvasHeight = imageSize * 3 + gap * 2;
   canvas.width = canvasWidth;
   canvas.height = canvasHeight;
@@ -19,6 +19,8 @@ function createCanvas(callback) {
     "https://picsum.photos/seed/2/512",
     "https://picsum.photos/seed/3/512",
     "https://picsum.photos/seed/4/512",
+    "https://picsum.photos/seed/5/512",
+    "https://picsum.photos/seed/6/512",
   ];
 
   let loadedCount = 0;
@@ -43,7 +45,7 @@ function drawTexture(canvas, imageSize, gap) {
   ctx.fillStyle = "#cccccc";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 6; i++) {
     ctx.drawImage(
       drawnImages[i],
       (imageSize + gap) * i,
@@ -140,25 +142,26 @@ scene.add(planeBottom);
 const point = new THREE.PointLight("white", 2);
 scene.add(point);
 
-let time = 0;
+const clock = new THREE.Clock();
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
 
+  const delta = clock.getDelta();
+  const time = clock.getElapsedTime();
   if (planeLeft && planeLeft.material.map) {
-    planeLeft.material.map.offset.x -= 0.05;
-    planeRight.material.map.offset.x -= 0.05;
-    planeFront.material.map.offset.x -= 0.05;
+    planeLeft.material.map.offset.x -= delta * 0.1;
+    planeRight.material.map.offset.x -= delta * 0.1;
+    planeFront.material.map.offset.x -= delta * 0.1;
   }
 
-  time += 0.006;
   camera.rotation.z = Math.sin(time) * 0.032;
   if (camera.position.z >= 3) {
     forward = true;
   } else if (camera.position.z <= 1) {
     forward = false;
   }
-  camera.position.z = 3 + Math.sin(time * 0.2) * 0.6 * (forward ? 1 : -1);
+  camera.position.z = 3 + Math.sin(time * 0.3) * 0.6 * (forward ? 1 : -1);
 }
 
 animate();
